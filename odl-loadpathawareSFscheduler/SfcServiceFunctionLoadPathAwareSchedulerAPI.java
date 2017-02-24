@@ -65,7 +65,6 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
         SfName sfcProviderTopologyNodeName = null;
         SfName sfcProviderTopologyNodeName_backup = null;
         List<SftServiceFunctionName> sftServiceFunctionNameList = serviceFunctionType.getSftServiceFunctionName();
- //       int maxTries = sftServiceFunctionNameList.size();
 
         /* Return null if there are no available instances for the serviceFunctionType */
         if (sftServiceFunctionNameList.size() == 0) {
@@ -142,8 +141,8 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
         int Path_threshold = 3;
         sfcProviderTopologyNodeName = null;
         sfcProviderTopologyNodeName_backup = null;
-        java.lang.Long preCPUUtilization = java.lang.Long.MAX_VALUE;
-        java.lang.Long preCPUUtilization_backup = java.lang.Long.MAX_VALUE;
+        java.lang.Long preResourceUtilization = java.lang.Long.MAX_VALUE;
+        java.lang.Long preResourceUtilization_backup = java.lang.Long.MAX_VALUE;
         int preLength = Integer.MAX_VALUE;
 
         for (SftServiceFunctionName sftServiceFunctionName : sftServiceFunctionNameList) {
@@ -178,20 +177,20 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
                 break;
             }
 
-            java.lang.Long curCPUUtilization =
+            java.lang.Long curResourceUtilization =
                     sfcSfDescMon.getMonitoringInfo().getResourceUtilization().getCPUUtilization();
             LOG.debug("CPU Utilization of {} is {}", curSfName, curCPUUtilization);
-            if (preCPUUtilization> curCPUUtilization && Path_length <= Path_threshold) {
-                preCPUUtilization = curCPUUtilization;
+            if (preResourceUtilization> curResourceUtilization && Path_length <= Path_threshold) {
+                preResourceUtilization = curResourceUtilization;
                 sfcProviderTopologyNodeName = curSfName;
             } else if (Path_length > Path_threshold) {
                 if (preLength > Path_length) {
                     preLength = Path_length;
                     sfcProviderTopologyNodeName_backup = curSfName;
-                    preCPUUtilization_backup = curCPUUtilization;
-                } else if (preLength == Path_length && preCPUUtilization_backup > curCPUUtilization) {
+                    preResourceUtilization_backup = curResourceUtilization;
+                } else if (preLength == Path_length && preResourceUtilization_backup > curResourceUtilization) {
                     sfcProviderTopologyNodeName_backup = curSfName;
-                    preCPUUtilization_backup = curCPUUtilization;
+                    preResourceUtilization_backup = curResourceUtilization;
                 }
             }
         }
