@@ -79,7 +79,7 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
         if (preSfName == null) {
             SfName sfName = null;
             SfName sftServiceFunctionName = null;
-            java.lang.Long preCPUUtilization = java.lang.Long.MAX_VALUE;
+            java.lang.Long preResourceUtilization = java.lang.Long.MAX_VALUE;
 
             for (SftServiceFunctionName curSftServiceFunctionName : sftServiceFunctionNameList) {
                 sfName = new SfName(curSftServiceFunctionName.getName());
@@ -98,12 +98,14 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
                     LOG.error("Read monitor information from Data Store failed! serviceFunction: {}", sfName);
                     break;
                 }
+                //TODO : Define loadType into MD-SAL
+                if  (loadType == 'CPU' ) {
+                    java.lang.Long curResourceUtilization =
+                            sfcSfDescMon.getMonitoringInfo().getResourceUtilization().getCPUUtilization();
+                }
 
-                java.lang.Long curCPUUtilization =
-                    sfcSfDescMon.getMonitoringInfo().getResourceUtilization().getCPUUtilization();
-
-                if (preCPUUtilization > curCPUUtilization) {
-                    preCPUUtilization = curCPUUtilization;
+                if (preCPUUtilization > curResourceUtilization) {
+                    preCPUUtilization = curResourceUtilization;
                     sftServiceFunctionName = sfName;
                 }
             }
