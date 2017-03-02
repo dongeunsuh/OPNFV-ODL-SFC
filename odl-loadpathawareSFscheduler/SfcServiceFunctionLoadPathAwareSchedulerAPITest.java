@@ -115,6 +115,7 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPITest extends AbstractDat
                 add("196.168.55.108");
                 add("196.168.55.109");
                 add("196.168.55.110");
+                add("196.168.55.111");
             }
         };
 
@@ -134,6 +135,7 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPITest extends AbstractDat
                 add(new SfName("fw_4"));
                 add(new SfName("dpi_4"));
                 add(new SfName("nat_4"));
+                add(new SfName("nat_5"));
             }
         };
 
@@ -150,6 +152,7 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPITest extends AbstractDat
                 add(new SftTypeName("napt44"));
                 add(new SftTypeName("firewall"));
                 add(new SftTypeName("dpi"));
+                add(new SftTypeName("napt44"));
                 add(new SftTypeName("napt44"));
             }
         };
