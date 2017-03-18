@@ -54,7 +54,7 @@ public class SfcServiceFunctionLoadPathAwareSchedulerAPI extends SfcServiceFunct
      * and lower path between Service Function preSfName than path threshold whcich is predefiend value
      * per serviceFunctionType.
      * In this code, we define path threshold to 3.
-     *
+     * We can change the threshold according to the policy.
      * @param serviceFunctionType Type of Service Function to find
      * @param preSfName Name of previous Service Function in Service Function Path
      * @param sfcProviderGraph Topology graph comprised of all the SFs and SFFs
