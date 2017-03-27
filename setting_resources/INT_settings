@@ -1,0 +1,53 @@
+*Settings for INT over VXLAN Demo
+
+-bm (https://github.com/p4lang/behavioral-model)
+
+./autogen.sh; 
+./configure --with-pdfixed --prefix=$HOME/install
+sudo make install
+
+-p4c-bm (https://github.com/p4lang/p4c-bm)
+
+sudo python setup.py build install --prefix $HOME/install --single-version-externally-managed --record install_files.txt
+
+-switch (provides switch.json and drivers)
+
+./autogen.sh
+./configure --with-bmv2 --with-switchlink --enable-thrift --prefix=$HOME/install
+sudo make install
+
+-수정한파일들
+
+in DDONG/mininet/mininet/net.py 
+
+VERSION 2.3.1로 수정
+
+in $HOME/plz/p4lang/p4factory/mininet/docker/docker_node.py
+
+ps_out = pidp.stdout.readlines() 
+self.pid = int(my_ps_out)
+=>
+ps_out = pidp.stdout.read().splitlines() 
+my_ps_out = ps_out[0].replace("'","")
+self.pid = int(my_ps_out)
+로 수정
+
+
+@@명령어들
+
+grep -rl "string" /path
+grep -Hrn 'search term' path/to/files
+
+failed to find filter.
+
+docker cp <containerId>:/file/path/within/container /host/path/target
+docker exec -it <container name> bash
+
+ps -fA | grep python
+
+@@ git submodule update 실패 이슈
+github.com/p4lang/p4factory/issues/48
+
+@@@ 2/20 
+
+SUH 하위에 있는 behavioral-model (bmv2) 및 p4c-bm 재 설치중
