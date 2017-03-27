@@ -1,0 +1,49 @@
+*Settings for INT over VXLAN Demo
+
+-bm (https://github.com/p4lang/behavioral-model)
+
+./autogen.sh; 
+./configure --with-pdfixed --prefix=$HOME/install
+sudo make install
+
+-p4c-bm (https://github.com/p4lang/p4c-bm)
+
+sudo python setup.py build install --prefix $HOME/install --single-version-externally-managed --record install_files.txt
+
+-switch (provides switch.json and drivers)
+
+./autogen.sh
+./configure --with-bmv2 --with-switchlink --enable-thrift --prefix=$HOME/install
+sudo make install
+
+-modified parts
+
+in DDONG/mininet/mininet/net.py 
+'VERSION'=> 2.3.1로 수정
+
+in $HOME/plz/p4lang/p4factory/mininet/docker/docker_node.py
+
+ps_out = pidp.stdout.readlines() 
+self.pid = int(my_ps_out)
+=>
+ps_out = pidp.stdout.read().splitlines() 
+my_ps_out = ps_out[0].replace("'","")
+self.pid = int(my_ps_out)
+로 수정
+
+-commands
+
+grep -rl "string" /path
+grep -Hrn 'search term' path/to/files
+
+-docker commands
+
+docker cp <containerId>:/file/path/within/container /host/path/target
+docker exec -it <container name> bash
+
+-check running python process
+
+ps -fA | grep python
+
+ -git submodule update failure issues
+github.com/p4lang/p4factory/issues/48
