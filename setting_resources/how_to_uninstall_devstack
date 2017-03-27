@@ -1,0 +1,8 @@
+% How to uninstall devstack (completely)
+
+rm -rf /opt/stack 
+rm -rf /usr/local/bin/ (be careful!!!)
+
+./clean.sh
+./unstack.sh
+
