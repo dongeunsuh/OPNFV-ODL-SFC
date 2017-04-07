@@ -1,53 +1,75 @@
-*Settings for INT over VXLAN Demo
+*Settings for INT over VXLAN Demo*
 
+Before starting, please refer to https://github.com/p4lang/p4factory/tree/master/apps/int
+Requirements: Ubuntu 14.04 (due to vxlan-gpe kernel module), vCPU > 4, RAM > 8G
+
+1. Clone p4factory and install dependencies (https://github.com/p4lang/p4factory)
+2. install mininet, docker
+3. install bm, p4c-bm, switch
 -bm (https://github.com/p4lang/behavioral-model)
+$ cd /p4factory/submodules/bm
+$./autogen.sh; 
+$./configure --with-pdfixed --prefix=$HOME/install
+$sudo make install
 
-./autogen.sh; 
-./configure --with-pdfixed --prefix=$HOME/install
-sudo make install
+-p4c-bm (interpretes .p4 into .json, https://github.com/p4lang/p4c-bm)
+$ cd /p4factory/submodules/p4c-bm
+$ sudo pip install -r requirements.txt
+$ sudo python setup.py build install --prefix $HOME/install --single-version-externally-managed --record install_files.txt
 
--p4c-bm (https://github.com/p4lang/p4c-bm)
-
-sudo python setup.py build install --prefix $HOME/install --single-version-externally-managed --record install_files.txt
-
--switch (provides switch.json and drivers)
-
-./autogen.sh
+-switch (https://github.com/p4lang/switch/tree/master)
+$ cd /p4factory/submodules/switch
+$ ./autogen.sh
 ./configure --with-bmv2 --with-switchlink --enable-thrift --prefix=$HOME/install
 sudo make install
 
--수정한파일들
+4. Other settings/known issues
+- git submodule update failure
+refer to github.com/p4lang/p4factory/issues/48
+
+- Disable bridge ethernet filtering 
+$ cd /proc/sys/net/bridge
+$ ls
+bridge-nf-call-arptables  bridge-nf-call-iptables
+bridge-nf-call-ip6tables  bridge-nf-filter-vlan-tagged
+$ sudo sh -c 'for f in bridge-nf-*; do echo 0 > $f; done'
+
+- Some modifications
 
 in DDONG/mininet/mininet/net.py 
-
-VERSION 2.3.1로 수정
+'VERSION 2.3.1'
 
 in $HOME/plz/p4lang/p4factory/mininet/docker/docker_node.py
-
 ps_out = pidp.stdout.readlines() 
 self.pid = int(my_ps_out)
 =>
 ps_out = pidp.stdout.read().splitlines() 
 my_ps_out = ps_out[0].replace("'","")
 self.pid = int(my_ps_out)
-로 수정
 
+5. run int apps
+- build/install vxlan-gpe driver 
+$ cd p4factory/apps/int/vxlan-gpe
+$ make
+$ sudo ./install_driver.sh
 
-@@명령어들
+- Run INT App
+$ cd p4factory/mininet
+$ sudo ./int_ref_topology.py --model-dir=$HOME/install
 
-grep -rl "string" /path
-grep -Hrn 'search term' path/to/files
+- Web UI
+in browser URL, 
+https://<PATH_TO_P4FACTORY>/p4factory/blob/master/apps/int/monitor/client/index.html
 
-failed to find filter.
+6. Some useful commands
+- grep strings in files
+$ grep -Hrn 'search term' path/to/files
 
-docker cp <containerId>:/file/path/within/container /host/path/target
-docker exec -it <container name> bash
+- Check running python process
+$ ps -fA | grep python
 
-ps -fA | grep python
+- Access docker container
+$ docker exec -it <container name> bash
 
-@@ git submodule update 실패 이슈
-github.com/p4lang/p4factory/issues/48
-
-@@@ 2/20 
-
-SUH 하위에 있는 behavioral-model (bmv2) 및 p4c-bm 재 설치중
+- Copy files from container to hosts (can be used when copying .pcap files in switches)
+$ docker cp <containerId>:/file/path/within/container /host/path/target
