@@ -1,0 +1,7 @@
+
+# on window cmd console, check the rdp sessions
+$ quser
+
+# switch sessions by <session id>
+# useful to login to lost previous session
+$ tscon <session id> /v
