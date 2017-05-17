@@ -8,3 +8,6 @@ rm -rf /usr/local/bin/ (be careful!!!)
 
 % python package conflict issue in devstack
 http://stackoverflow.com/questions/42140729/version-conflict-issue-with-python-packaging-module
+
+% python directory not owned by current user
+http://blog.naver.com/PostView.nhn?blogId=bokmail83&logNo=220285343332&parentCategoryNo=&categoryNo=78&viewDate=&isShowPopularPosts=true&from=search
