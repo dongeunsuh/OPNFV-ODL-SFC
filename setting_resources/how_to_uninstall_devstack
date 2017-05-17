@@ -6,3 +6,5 @@ rm -rf /usr/local/bin/ (be careful!!!)
 ./clean.sh
 ./unstack.sh
 
+% python package conflict issue in devstack
+http://stackoverflow.com/questions/42140729/version-conflict-issue-with-python-packaging-module
