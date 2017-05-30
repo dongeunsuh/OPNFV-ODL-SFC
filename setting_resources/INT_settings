@@ -73,3 +73,11 @@ $ docker exec -it <container name> bash
 
 - Copy files from container to hosts (can be used when copying .pcap files in switches)
 $ docker cp <containerId>:/file/path/within/container /host/path/target
+
+- runtime API for BMv2
+$CLI = <Path-to-your-CLI>
+$CLI <path-to-your-json> <port-number-of-bmCLI>
+
+for example,
+$CLI = /home/int/p4factory/submodules/bm/targets/simple_switch/sswitch_CLI
+$CLI /home/int/p4factory/submodules/switch/p4-build/bmv2/switch.json 27000
